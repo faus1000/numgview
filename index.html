@@ -1,0 +1,348 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="main.js"></script>
+    <title>NumG Analyzer</title>
+    <style>
+        body {
+            background-color: #030f1a;
+        }
+
+        .egroup {
+            /* background-color: red; */
+            width: auto;
+            height: auto;
+
+        }
+
+        .ogroup {
+            /* 
+              background-color: red;   */
+            width: auto;
+            height: auto;
+            vertical-align: bottom;
+        }
+
+        .line {
+            width: 100%;
+            height: 3px;
+            /* background-color: green; light */
+            background-color: #3e9f3e;
+            /*dark*/
+        }
+
+        .lineO {
+            width: 100%;
+            height: 3px;
+            /* background-color: red; light*/
+            background-color: #ff4b4b;
+            /* dark*/
+        }
+
+        .counterE {
+            font-size: 24px;
+            justify-content: center;
+            display: flex;
+            /* color: rgb(4, 95, 4); light*/
+            color: rgb(57, 211, 57);
+            /* dark*/
+            font-weight: bold;
+        }
+
+        .counterO {
+            font-size: 24px;
+            justify-content: center;
+            display: flex;
+            /* color: red; light*/
+            color: #ff2626;
+            /* dark*/
+            font-weight: bold;
+        }
+
+        #container {
+            display: flex;
+            justify-items: center;
+
+        }
+
+        .eDigits {
+            font-size: 28px;
+            /* background-color: rgb(159, 247, 196, 0.47); light*/
+            background-color: rgb(159, 247, 196, 0);
+            /* dark*/
+            /* color: #5d745c;  light*/
+            color: #a6b9a5;
+            /*dark */
+
+
+        }
+
+        .oDigits {
+            font-size: 28px;
+            /* background-color: rgb(255, 213, 207, 0.49); light */
+            background-color: rgb(255, 213, 207, 0);
+            /*dark*/
+            /* color: #b17b7b;  light*/
+            color: #ffc8c8;
+            /* dark*/
+
+        }
+
+        .spacer {
+            height: 30.5px;
+        }
+    </style>
+   
+</head>
+
+<body>
+    <div id="container">
+        <div class="egroup">
+            <span class="counterE"></span>
+            <div class="line"></div>
+            <div class="eDigits"></div>
+        </div>
+        <div class="ogroup">
+            <div class="spacer"></div>
+            <div class="oDigits"></div>
+            <div class="lineO"></div>
+            <span class="counterO"></span>
+        </div>
+
+
+    </div>
+    <script>
+        ///TODO:tareas y features:
+        /**
+        *!  scroll horizontal wheel
+        ** pan zoom wheel
+        *? auto scroll to right
+        */
+
+        // var elements = document.querySelector('#scene');
+        //var element = document.getElementById("container");
+
+        var out = document.body;
+        //==============================================================
+        //const WebSocket = require('ws');
+        var arr1 = [];
+        var arr2 = [];
+        arr2[0] = 0;
+        var listC = [];
+
+        var eCounter = 0;
+        var oCounter = 0;
+
+
+        //var e = document.getElementById("Indices");
+        //  var item = e.options[e.selectedIndex].value;
+        // var symbol = "R_100";
+        var symbol = "R_50";
+        var decimals = 4;
+
+        //========================================== Ontick
+
+
+        var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+
+        ws.onopen = function (evt) {
+            ws.send(JSON.stringify({ ticks: symbol }));
+        };
+
+        //var contador = 0;
+
+        var addOGroup = false;
+        var addEGroup = false;
+        ws.onmessage = function (msg) {
+            //contador++
+            var data = JSON.parse(msg.data);
+
+            var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
+            var isScrolledToBottom = out.scrollWidth - out.clientWidth <= out.scrollLeft + 1;
+            console.log(digit);
+            //console.log("contador: " + contador);
+
+            if (digit % 2 === 0) {
+                var text = "O";
+                if (oCounter > 0) {
+                    arr1.push(oCounter + text);
+                    AñadirGruposE(digit, 1);
+                    //  AñadirSeparador();
+                    addEGroup = true
+
+                }
+                oCounter = 0;
+                eCounter += 1;
+
+            } else {
+                var text = "E";
+                if (eCounter > 0) {
+                    arr1.push(eCounter + text);
+                    AñadirGruposO(digit, 1);
+                    //   AñadirSeparador();
+                    addOGroup = true;
+
+                }
+                eCounter = 0;
+                oCounter += 1;
+            }
+            if (eCounter > 0) {
+                var text = "E";
+                arr2[0] = eCounter + text;
+                if (addEGroup) {
+                    addEGroup = false;
+                } else {
+                    AñadirDigitsE(digit, eCounter);
+
+                }
+
+                console.log("Ecounter mayor a cero");
+            }
+            if (oCounter > 0) {
+                var text = "O";
+                arr2[0] = oCounter + text;
+                if (addOGroup) {
+                    addOGroup = false;
+                } else {
+                    AñadirDigitsO(digit, oCounter);
+
+                }
+
+                console.log("Ocounter mayor a cero");
+            }
+            listC = arr1 + "," + arr2;
+            console.log("Groups: " + listC);
+            var digitListView = document.getElementById("digitGroups");
+            // digitListView.innerHTML = listC;
+            //TODO:mostar en consola el ListC
+        
+
+        // function AñadirSeparador() {
+        //     var line = document.getElementById("lineSeparator");
+        //     var text = document.createTextNode("==");
+        //     line.appendChild(text);
+        // }
+
+        // your script goes here
+        // colors text 🟢🔵🔴
+        function AñadirGruposE(digito, Ec) {
+
+            var eGroup = document.createElement("div");
+            var eCounter = document.createElement("span");
+            var eLine = document.createElement("div");
+            var eDigits = document.createElement("div");
+
+            eGroup.setAttribute('class', 'egroup');
+            eCounter.setAttribute('class', 'counterE');
+            eLine.setAttribute('class', 'line');
+            eDigits.setAttribute('class', 'eDigits');
+
+            var eCounterText = document.createTextNode(Ec);
+
+            var edigitText = document.createTextNode(digito);
+
+            eCounter.appendChild(eCounterText);
+            eDigits.appendChild(edigitText);
+
+            eGroup.appendChild(eCounter);
+            eGroup.appendChild(eLine);
+            eGroup.appendChild(eDigits);
+
+            var container = document.getElementById("container");
+            container.appendChild(eGroup);
+
+
+
+
+        }
+
+        function AñadirDigitsE(digito, Ec) {
+
+
+            var eCounterText = document.createTextNode(Ec);
+
+            var edigitText = document.createTextNode(digito);
+
+            var counterItem = document.getElementsByClassName("counterE");
+
+            counterItem[counterItem.length - 1].innerHTML = Ec;
+
+            var digitoItem = document.getElementsByClassName("eDigits");
+            // var n;
+            // for (n = 0; n < digitoItem.length; ++n) {
+            //     digitoItem[n].appendChild(edigitText)
+            // }
+            digitoItem[digitoItem.length - 1].appendChild(edigitText)
+
+        }
+
+        function AñadirGruposO(digito, Oc) {
+            var oGroup = document.createElement("div");
+            var oCounter = document.createElement("span");
+            var oLine = document.createElement("div");
+            var oDigits = document.createElement("div");
+            var spacer = document.createElement("div");
+
+            oGroup.setAttribute('class', 'ogroup');
+            oCounter.setAttribute('class', 'counterO');
+            oLine.setAttribute('class', 'lineO');
+            oDigits.setAttribute('class', 'oDigits');
+            spacer.setAttribute('class', 'spacer');
+
+            var oCounterText = document.createTextNode(Oc);
+
+            var odigitText = document.createTextNode(digito);
+
+            oCounter.appendChild(oCounterText);
+            oDigits.appendChild(odigitText);
+
+            oGroup.appendChild(spacer);
+            oGroup.appendChild(oDigits);
+            oGroup.appendChild(oLine);
+            oGroup.appendChild(oCounter);
+
+            var container = document.getElementById("container");
+            container.appendChild(oGroup);
+
+        }
+
+        function AñadirDigitsO(digito, Oc) {
+            var oCounterText = document.createTextNode(Oc);
+
+            var odigitText = document.createTextNode(digito);
+
+            var counterItem = document.getElementsByClassName("counterO");
+
+            counterItem[counterItem.length - 1].innerHTML = Oc;
+
+            var digitoItemO = document.getElementsByClassName("oDigits");
+            // var n;
+            // for (n = 0; n < digitoItemO.length; ++n) {
+            //     digitoItem[n].appendChild(odigitText)
+            // }
+            digitoItemO[digitoItemO.length - 1].appendChild(odigitText)
+        }
+
+        function IndexChange() {
+            var e = document.getElementById("Indices");
+            var item = e.options[e.selectedIndex].value;
+            symbol = item;
+            // con esto obtenemos cada indice y renderizamos nuevamente el grafico
+            // crear otra version que funcione para iterar historial de ticks, o tambien podemos incluirlo en este :)
+            console.log(item);
+        }
+
+        if (isScrolledToBottom) {
+                out.scrollLeft = out.scrollWidth - out.clientWidth;
+                console.log("scroll desplazado al final");
+            } else {
+                //out.scrollLeft = out.scrollWidth - out.clientWidth;
+                console.log("Se movio el scroll del borde");
+            }
+    
+    }
+    </script>
+
+</body>
