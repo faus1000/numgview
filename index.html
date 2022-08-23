@@ -161,7 +161,7 @@
 
             var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
             var isScrolledToBottom = out.scrollWidth - out.clientWidth <= out.scrollLeft + 1;
-            console.log(digit);
+           // console.log(digit);
             //console.log("contador: " + contador);
 
             if (digit % 2 === 0) {
@@ -336,10 +336,10 @@
 
         if (isScrolledToBottom) {
                 out.scrollLeft = out.scrollWidth - out.clientWidth;
-                console.log("scroll desplazado al final");
+               // console.log("scroll desplazado al final");
             } else {
                 //out.scrollLeft = out.scrollWidth - out.clientWidth;
-                console.log("Se movio el scroll del borde");
+              //  console.log("Se movio el scroll del borde");
             }
     
     }
