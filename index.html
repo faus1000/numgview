@@ -6,7 +6,8 @@
     <title>NumG View</title>
     <style>
         body {
-            background-color: #030f1a;
+           background-color: #030f1a; /* 
+            background-color: #ffffff; */
         }
 
         .egroup {
@@ -144,6 +145,38 @@
             height: 44.5px;
             /* background-color: rebeccapurple; */
         }
+        .oDiference {
+            font-size: 18;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+           /* background-color: rgba(255, 125, 18, 0.32);*/
+          /* background-color: rgba(255, 255, 255, 0.137);*/
+           background-color: rgba(189, 255, 240, 0.18);
+           border: rgb(236, 236, 236) solid 0.2px;
+           /*  color: rgba(255, 255, 255, 0.918);*/
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            transform: translate(1px, -2px);
+        }
+        .eDiference {
+            font-size: 18;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+           /* background-color: rgba(0 ,131, 255 , 0.22);*/
+          /* background-color: rgba(255, 255, 255, 0.137);*/
+          background-color: rgba(189, 255, 240, 0.18);
+           border: rgb(236, 236, 236) solid 0.2px;
+          /*   color: rgba(255, 255, 255, 0.795);*/
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            transform: translate(1px, 0px);
+        }
     </style>
 
 </head>
@@ -168,12 +201,13 @@
         <!-- id="evenDigitsContainer"-->
         <!--  id="oddDigitsContainer"-->
       <!--  <div class="egroup">
-            <span class="counterE"></span>
+            <span class="counterE">4</span>
             <div class="line"></div>
             <div class="eDigitsContainer">
                 <div class="evenDigits">
                     <div class="eDigits"></div>
                     <div class="ePosition"></div>
+                    <div class="eDiference"></div>
                 </div>
 
 
@@ -186,13 +220,14 @@
                 <div class="oddDigits">
                     <div class="oDigits"></div>
                     <div class="oPosition"></div>
+                    <div class="oDiference"></div>
                 </div>
             </div>
             <div class="lineO"></div>
-            <span class="counterO"></span>
+            <span class="counterO">1</span>
         </div>
--->
 
+-->
     </div>
     <script>
        
@@ -235,6 +270,13 @@
         var addOGroup = false;
         var addEGroup = false;
         var AusData = [0,0,0,0,0,0,0,0,0,0];
+
+        var one = 0;
+        var ResData = [0,0];
+      //  var DiferencePatterns = [];
+     var NegDiferenceColor = "rgba(255,0, 0, 0.84)";
+      var PosDiferenceColor ="rgba(89,255, 232, 0.75)";
+
         ws.onmessage = function (msg) {
             contador++
             var data = JSON.parse(msg.data);
@@ -242,8 +284,18 @@
             var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
             var isScrolledToBottom = out.scrollWidth - out.clientWidth <= out.scrollLeft + 1;
             // console.log(digit);
-            //console.log("contador: " + contador);
+            
+            //listado de patrones por diferencia
+            ResData[1] = digit;
+            ResData[0]= one;
+            one = digit;
+            var diferencias = ResData[1]-ResData[0];
+            //DiferencePatterns.push(diferencias); 
+            //console.log(DiferencePatterns);
+          
 
+
+            /////////////////////////////////////////////////
             if (digit == 8) {
                 AusData[8]= co8;
                 co8 = 0;
@@ -310,7 +362,7 @@
                 var text = "O";
                 if (oCounter > 0) {
                    // arr1.push(oCounter + text);
-                    AñadirGruposE(digit, 1,contador,AusData[digit]);
+                    AñadirGruposE(digit, 1,contador,AusData[digit],diferencias);
                     addEGroup = true
 
                 }
@@ -321,7 +373,7 @@
                 var text = "E";
                 if (eCounter > 0) {
                  //   arr1.push(eCounter + text);
-                    AñadirGruposO(digit, 1,contador,AusData[digit]);
+                    AñadirGruposO(digit, 1,contador,AusData[digit],diferencias);
                     addOGroup = true;
 
                 }
@@ -334,7 +386,7 @@
                 if (addEGroup) {
                     addEGroup = false;
                 } else {
-                    AñadirDigitsE(digit, eCounter,contador,AusData[digit]);
+                    AñadirDigitsE(digit, eCounter,contador,AusData[digit],diferencias);
 
                 }
 
@@ -346,7 +398,7 @@
                 if (addOGroup) {
                     addOGroup = false;
                 } else {
-                    AñadirDigitsO(digit, oCounter,contador,AusData[digit]);
+                    AñadirDigitsO(digit, oCounter,contador,AusData[digit],diferencias);
 
                 }
 
@@ -360,7 +412,7 @@
 
             // your script goes here
             // colors text 🟢🔵🔴
-            function AñadirGruposE(digito, Ec,counter,AusCounter) {
+            function AñadirGruposE(digito, Ec,counter,AusCounter,diference) {
                 /*
                                 var eGroup = document.createElement("div");
                                 var eCounter = document.createElement("span");
@@ -413,8 +465,21 @@
                 var ePostxt = document.createTextNode(AusCounter);
                 ePosition.appendChild(ePostxt);
 
+                var eDiference = document.createElement("div");
+                eDiference.setAttribute('class', 'eDiference');
+                if (diference <0) {
+                    //eDiference.style.backgroundColor = NegDiferenceColor;
+                    eDiference.style.color = NegDiferenceColor;
+                }else{
+                  //  eDiference.style.backgroundColor = PosDiferenceColor;
+                    eDiference.style.color = PosDiferenceColor;
+                }
+                var edifertxt = document.createTextNode(diference);
+                eDiference.appendChild(edifertxt);
+
                 evenDigits.appendChild(eDigits);
                 evenDigits.appendChild(ePosition);
+                evenDigits.appendChild(eDiference);
 
                 edigitsContainer.appendChild(evenDigits);
 
@@ -429,7 +494,7 @@
 
             }
 
-            function AñadirDigitsE(digito, Ec,counter,AusCounter) {
+            function AñadirDigitsE(digito, Ec,counter,AusCounter,diference) {
  
                 var eCounterText = document.createTextNode(Ec); 
                 var edigitText = document.createTextNode(digito);
@@ -453,8 +518,21 @@
                 var ePostxt = document.createTextNode(AusCounter);
                 ePosition.appendChild(ePostxt);
 
+                var eDiference = document.createElement("div");
+                eDiference.setAttribute('class', 'eDiference');
+                if (diference <0) {
+                    //eDiference.style.backgroundColor = NegDiferenceColor;
+                    eDiference.style.color = NegDiferenceColor;
+                }else{
+                  //  eDiference.style.backgroundColor = PosDiferenceColor;
+                    eDiference.style.color = PosDiferenceColor;
+                }
+                var edifertxt = document.createTextNode(diference);
+                eDiference.appendChild(edifertxt);
+
                 evenDigits.appendChild(eDigits);
                 evenDigits.appendChild(ePosition);
+                evenDigits.appendChild(eDiference);
                 // var n;
                 // for (n = 0; n < digitoItem.length; ++n) {
                 //     digitoItem[n].appendChild(edigitText)
@@ -463,7 +541,7 @@
 
             }
 
-            function AñadirGruposO(digito, Oc,counter,AusCounter) {
+            function AñadirGruposO(digito, Oc,counter,AusCounter,diference) {
                 var oGroup = document.createElement("div");
                 oGroup.setAttribute('class', 'ogroup');
 
@@ -494,8 +572,21 @@
                 var spacer = document.createElement("div");
                 spacer.setAttribute('class', 'spacer');
 
+                var oDiference = document.createElement("div");
+                oDiference.setAttribute('class', 'oDiference');
+                if (diference <0) {
+                    //oDiference.style.backgroundColor = NegDiferenceColor;
+                    oDiference.style.color = NegDiferenceColor;
+                }else{
+                   // oDiference.style.backgroundColor = PosDiferenceColor;
+                    oDiference.style.color= PosDiferenceColor;
+                }
+                var odifertxt = document.createTextNode(diference);
+                oDiference.appendChild(odifertxt);
+
                oddDigits.appendChild(oDigits);
                oddDigits.appendChild(oPosition);
+               oddDigits.appendChild(oDiference);
 
                odigitsContainer.appendChild(oddDigits); 
                 
@@ -510,7 +601,7 @@
 
             }
 
-            function AñadirDigitsO(digito, Oc,counter,AusCounter) {
+            function AñadirDigitsO(digito, Oc,counter,AusCounter,diference) {
                 
                 var counterItem = document.getElementsByClassName("counterO");
 
@@ -531,8 +622,21 @@
                 var oPostxt = document.createTextNode(AusCounter);
                 oPosition.appendChild(oPostxt);
 
+                var oDiference = document.createElement("div");
+                oDiference.setAttribute('class', 'oDiference');
+                if (diference <0) {
+                    //oDiference.style.backgroundColor = NegDiferenceColor;
+                    oDiference.style.color = NegDiferenceColor;
+                }else{
+                   // oDiference.style.backgroundColor = PosDiferenceColor;
+                    oDiference.style.color= PosDiferenceColor;
+                }
+                var odifertxt = document.createTextNode(diference);
+                oDiference.appendChild(odifertxt);
+
                 oddDigits.appendChild(oDigits);
                 oddDigits.appendChild(oPosition);
+                oddDigits.appendChild(oDiference);
                 
                 digitoItemO[digitoItemO.length - 1].appendChild(oddDigits);
             }
