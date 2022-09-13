@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>select</title>
+    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4.5.1/css/metro-all.min.css">
+    <style >
+#Items{
+    position: absolute;
+    width: 200px;
+}
+    </style>
+    <script>
+
+        function cambiar(){
+var arr = ["primero","segundo"];
+
+ var tg = document.getElementById("hola");
+ var view = document.getElementById("Items");
+ var valor = view.options[view.selectedIndex].value;
+ //var valor = view.options[view.selectedIndex].name;
+// var valor = view.options[view.selectedIndex].text;
+
+
+        hola.innerHTML =valor;
+console.log(arr[view.selectedIndex]);
+
+        }
+       
+    </script>
+</head>
+<body>
+    <select class="w-25 bg-dark fg-white"  data-role="select" id="Items" onchange="cambiar()">
+        <option class="bg-dark fg-white" value="R_50">V50</option>
+        <option value="R_75">V75</option>
+        <option value="R_100" selected>V100</option>
+    </select>
+
+    <h1 id="hola">title</h1>
+    <script src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
+</body>
+</html>

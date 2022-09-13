@@ -1,0 +1,884 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="main.js"></script>
+    <title>NumG View-Multi</title>
+    <style>
+        body {
+            background-color: #030f1a;
+            /* 
+            background-color: #ffffff; */
+        }
+
+        .egroup {
+            /* background-color: red; */
+            width: auto;
+            height: auto;
+
+        }
+
+        .ogroup {
+            /* 
+              background-color: red;   */
+            width: auto;
+            height: auto;
+            vertical-align: bottom;
+        }
+
+        .line {
+            width: 100%;
+            height: 5px;
+            /* background-color: green; light */
+            background-color: #07c37a;
+            margin: 0px 0px 4px 0px;
+            border-radius: 2px 2px 2px 2px;
+            /*dark*/
+        }
+
+        .lineO {
+            width: 100%;
+            height: 5px;
+            /* background-color: red; light*/
+            background-color: #ff8256;
+            margin: 4px 0px 0px 0px;
+            border-radius: 2px 2px 2px 2px;
+            /* dark*/
+        }
+
+        .counterE {
+            font-size: 30px;
+            justify-content: center;
+            display: flex;
+            /* color: rgb(4, 95, 4); light*/
+            color: rgb(57, 211, 57);
+            /* dark*/
+            font-weight: bold;
+        }
+
+        .counterO {
+            font-size: 30px;
+            justify-content: center;
+            display: flex;
+            /* color: red; light*/
+            color: #ff2626;
+            /* dark*/
+            font-weight: bold;
+        }
+
+        #container {
+            display: flex;
+            justify-items: center;
+
+        }
+
+        .eDigits {
+
+            background-color: rgba(0, 128, 0, 0.42);
+            color: #ffffff;
+            font-size: 24;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+
+        }
+
+        .ePosition {
+            font-size: 22;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(0, 131, 255, 0.22);
+            color: rgba(255, 255, 255, 0.795);
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            transform: translate(1px, 0px);
+        }
+
+        .eDigitsContainer {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .oDigitsContainer {
+            display: flex;
+            flex-direction: row;
+        }
+
+        /**/
+        .oPosition {
+            font-size: 22;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 125, 18, 0.32);
+            color: rgba(255, 255, 255, 0.918);
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            transform: translate(1px, 0px);
+        }
+
+        .oDigits {
+
+            background-color: rgba(219, 41, 41, 0.42);
+            color: #ffffff;
+            font-size: 24;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+
+
+        }
+
+        .spacer {
+            height: 44.5px;
+            /* background-color: rebeccapurple; */
+        }
+
+        .oDiference {
+            font-size: 18;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            /* background-color: rgba(255, 125, 18, 0.32);*/
+            /* background-color: rgba(255, 255, 255, 0.137);*/
+            background-color: rgba(189, 255, 240, 0.18);
+            border: rgba(1, 199, 195, 0.74) solid 0.2px;
+            /*  color: rgba(255, 255, 255, 0.918);*/
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            transform: translate(1px, -2px);
+        }
+
+        .eDiference {
+            font-size: 18;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            /* background-color: rgba(0 ,131, 255 , 0.22);*/
+            /* background-color: rgba(255, 255, 255, 0.137);*/
+            background-color: rgba(189, 255, 240, 0.18);
+            border: rgba(1, 199, 195, 0.74) solid 0.2px;
+            /*   color: rgba(255, 255, 255, 0.795);*/
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            transform: translate(1px, 0px);
+        }
+
+        /* .controls{
+background-color: turquoise;
+width: 100%;
+height: 48px;
+position: fixed;
+        } */
+        #selector {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- <div id="container">
+        <div class="egroup">
+            <span class="counterE">3</span>
+            <div class="line"></div>
+            <div class="eDigits">468</div> 
+        </div>
+        <div class="ogroup">
+            <div class="spacer"></div>
+            <div class="oDigits">931</div>
+            <div class="lineO"></div>
+            <span class="counterO">3</span>
+        </div>
+
+
+    </div> -->
+    <div class="controls">
+        <select id="selector" onchange="cambiar()">
+            <option value="R_10">V10</option>
+            <option value="R_25">V25</option>
+            <option value="R_50" selected>V50</option>
+            <option value="R_75">V75</option>
+            <option value="R_100">V100</option>
+            <option value="1HZ10V">V10(1s)</option>
+            <option value="1HZ25V">V25(1s)</option>
+            <option value="1HZ50V">V50(1s)</option>
+            <option value="1HZ75V">V75(1s)</option>
+            <option value="1HZ100V">V100(1s)</option>
+            <option value="JD10">Jump 10</option>
+            <option value="JD25">Jump 25</option>
+            <option value="JD50">Jump 50</option>
+            <option value="JD75">Jump 75</option>
+            <option value="JD100">Jump 100</option>
+            <option value="RDBEAR">Bear</option>
+            <option value="RDBULL">Bull</option>
+        </select>
+    </div>
+    <div id="container">
+        <!-- id="evenDigitsContainer"-->
+        <!--  id="oddDigitsContainer"-->
+        <!--  <div class="egroup">
+            <span class="counterE">4</span>
+            <div class="line"></div>
+            <div class="eDigitsContainer">
+                <div class="evenDigits">
+                    <div class="eDigits"></div>
+                    <div class="ePosition"></div>
+                    <div class="eDiference"></div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="ogroup">
+            <div class="spacer"></div>
+            <div class="oDigitsContainer">
+                <div class="oddDigits">
+                    <div class="oDigits"></div>
+                    <div class="oPosition"></div>
+                    <div class="oDiference"></div>
+                </div>
+            </div>
+            <div class="lineO"></div>
+            <span class="counterO">1</span>
+        </div>
+
+-->
+    </div>
+
+
+
+    <script>
+
+
+        var indice = [
+            {
+                "name": "R_10",
+                "round": 3
+            },
+            {
+                "name": "R_25",
+                "round": 3
+            },
+            {
+                "name": "R_50",
+                "round": 4
+            },
+            {
+                "name": "R_75",
+                "round": 4
+            },
+            {
+                "name": "R_100",
+                "round": 2
+            },
+            {
+                "name": "1HZ10V",
+                "round": 3
+            },
+            {
+                "name": "1HZ25V",
+                "round": 2
+            },
+            {
+                "name": "1HZ50V",
+                "round": 2
+            },
+            {
+                "name": "1HZ75V",
+                "round": 2
+            },
+            {
+                "name": "1HZ100V",
+                "round": 2
+            },
+            {
+                "name": "RDBEAR",
+                "round": 4
+            },
+            {
+                "name": "RDBULL",
+                "round": 4
+            },
+            {
+                "name": "JD10",
+                "round": 2
+            },
+            {
+                "name": "JD25",
+                "round": 2
+            },
+            {
+                "name": "JD50",
+                "round": 2
+            },
+            {
+                "name": "JD75",
+                "round": 2
+            },
+            {
+                "name": "JD100",
+                "round": 2
+            }
+        ];
+
+
+
+        var out = document.body;
+        //==============================================================
+
+        // var arr1 = [];
+        //  var arr2 = [];
+        //   arr2[0] = 0;
+        // var listC = [];
+        var porcentList = [];
+        periods = 25;
+
+        var eCounter = 0;
+        var oCounter = 0;
+
+        var decimals = 0;
+        var symb = "";
+  var symbol = "";
+  var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+
+        function cambiar() {
+          
+            var sel = document.getElementById("selector");
+            var valor = sel.options[sel.selectedIndex].value;
+            symb = sel.options[sel.selectedIndex].value;
+
+            document.getElementById("container").innerHTML = "";
+            decimals =0;
+
+           
+
+
+
+
+            symbol =  symb;
+          
+
+            var contador = 0;
+
+            //========================================== Ontick
+            var co0 = 0;
+            var co1 = 0;
+            var co2 = 0;
+            var co3 = 0;
+            var co4 = 0;
+            var co5 = 0;
+            var co6 = 0;
+            var co7 = 0;
+            var co8 = 0;
+            var co9 = 0;
+
+
+         
+
+            ws.onopen = function (evt) {
+                ws.send(JSON.stringify({ ticks: symb }));
+            };
+
+            var addOGroup = false;
+            var addEGroup = false;
+            var AusData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            var one = 0;
+            var ResData = [0, 0];
+            //  var DiferencePatterns = [];
+            var NegDiferenceColor = "rgba(255,0, 0, 0.84)";
+            var PosDiferenceColor = "rgba(89,255, 232, 0.75)";
+
+            ws.onmessage = function (msg) {
+                contador++
+                var data = JSON.parse(msg.data);
+
+                //var decimals = 0;
+                if (decimals != 0) {
+                //console.log("el decimal es: " + decimals)
+              //  console.log("el symbolo es: " + symbol)
+            } else {
+                for (let index = 0; index < indice.length; index++) {
+                    var item = indice[index].name;
+                    if (symbol == item) {
+                        decimals = indice[index].round;
+                    }
+
+
+                }
+            }
+            console.log("el decimal es: " + decimals)
+                console.log("el symbolo es: " + symbol)
+                console.log("el tick es: " + data.tick.quote);
+
+
+                var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
+                var isScrolledToBottom = out.scrollWidth - out.clientWidth <= out.scrollLeft + 1;
+                // console.log(digit);
+
+                //listado de patrones por diferencia
+                ResData[1] = digit;
+                ResData[0] = one;
+                one = digit;
+                var diferencias = ResData[1] - ResData[0];
+                //DiferencePatterns.push(diferencias); 
+                //console.log(DiferencePatterns);
+                var percents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                var percentsValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                if (porcentList.length > periods) {
+                    porcentList.push(digit);
+                    var perioDigits = porcentList.slice(porcentList.length - periods, porcentList.length);
+
+                    //calcular los porcentajes
+                    perioDigits.forEach(element => {
+                        if (element == "0") {
+                            percents[0] += 1;
+                        } else if (element == "1") {
+                            percents[1] += 1;
+                        }
+                        else if (element == "2") {
+                            percents[2] += 1;
+                        }
+                        else if (element == "3") {
+                            percents[3] += 1;
+                        }
+                        else if (element == "4") {
+                            percents[4] += 1;
+                        }
+                        else if (element == "5") {
+                            percents[5] += 1;
+                        }
+                        else if (element == "6") {
+                            percents[6] += 1;
+                        }
+                        else if (element == "7") {
+                            percents[7] += 1;
+                        } else if (element == "8") {
+                            percents[8] += 1;
+                        } else if (element == "9") {
+                            percents[9] += 1;
+                        }
+                    });
+
+
+                    for (let index = 0; index < percents.length; index++) {
+                        var element = (percents[index] * 100) / periods;
+                        //percentsValues[index] = index+"-"+element+"%";
+                        percentsValues[index] = element + "%";
+
+                        //mostrar los 5 digitos con mayor porcentaje
+
+                    }
+
+                    //console.log("25 digits:" + perioDigits);
+                    //console.log( "units percents" +percents);
+                    console.log("% percents: " + percentsValues);
+                    //  for (let index = 0; index < percentsValues.length; index++) {
+                    //     var element = percentsValues[index];
+
+                    //  }
+
+                    percents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    percentsValue = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+                } else {
+                    //seguir añadiendo
+                    console.log("cargando digitos");
+                    porcentList.push(digit);
+
+                }
+
+                /////////////////////////////////////////////////
+                if (digit == 8) {
+                    AusData[8] = co8;
+                    co8 = 0;
+                } else {
+                    co8++
+                }
+                if (digit == 6) {
+                    AusData[6] = co6;
+                    co6 = 0;
+                } else {
+                    co6++;
+                }
+                if (digit == 4) {
+                    AusData[4] = co4;
+                    co4 = 0;
+                } else {
+                    co4++;
+                }
+                if (digit == 2) {
+                    AusData[2] = co2;
+                    co2 = 0;
+                } else {
+                    co2++;
+                }
+                if (digit == 0) {
+                    AusData[0] = co0;
+                    co0 = 0;
+                } else {
+                    co0++;
+                }
+                if (digit == 1) {
+                    AusData[1] = co1;
+                    co1 = 0;
+                } else {
+                    co1++;
+                }
+                if (digit == 3) {
+                    AusData[3] = co3;
+                    co3 = 0;
+                } else {
+                    co3++;
+                }
+                if (digit == 5) {
+                    AusData[5] = co5;
+                    co5 = 0;
+                } else {
+                    co5++;
+                }
+                if (digit == 7) {
+                    AusData[7] = co7;
+                    co7 = 0;
+                } else {
+                    co7++;
+                }
+                if (digit == 9) {
+                    AusData[9] = co9;
+                    co9 = 0;
+
+                } else {
+                    co9++;
+                }
+
+                if (digit % 2 === 0) {
+                    var text = "O";
+                    if (oCounter > 0) {
+                        // arr1.push(oCounter + text);
+                        AñadirGruposE(digit, 1, contador, AusData[digit], diferencias);
+                        addEGroup = true
+
+                    }
+                    oCounter = 0;
+                    eCounter += 1;
+
+                } else {
+                    var text = "E";
+                    if (eCounter > 0) {
+                        //   arr1.push(eCounter + text);
+                        AñadirGruposO(digit, 1, contador, AusData[digit], diferencias);
+                        addOGroup = true;
+
+                    }
+                    eCounter = 0;
+                    oCounter += 1;
+                }
+                if (eCounter > 0) {
+                    // var text = "E";
+                    //arr2[0] = eCounter + text;
+                    if (addEGroup) {
+                        addEGroup = false;
+                    } else {
+                        AñadirDigitsE(digit, eCounter, contador, AusData[digit], diferencias);
+
+                    }
+
+                    // console.log("Ecounter mayor a cero");
+                }
+                if (oCounter > 0) {
+                    // var text = "O";
+                    //arr2[0] = oCounter + text;
+                    if (addOGroup) {
+                        addOGroup = false;
+                    } else {
+                        AñadirDigitsO(digit, oCounter, contador, AusData[digit], diferencias);
+
+                    }
+
+                    // console.log("Ocounter mayor a cero");
+                }
+                //mostrar en lista este array
+                // listC = arr1 + "," + arr2;
+                //   console.log("Groups: " + listC);
+                //   var digitListView = document.getElementById("digitGroups");
+
+
+                // your script goes here
+                // colors text 🟢🔵🔴
+                function AñadirGruposE(digito, Ec, counter, AusCounter, diference) {
+
+                    var eGroup = document.createElement("div");
+                    eGroup.setAttribute('class', 'egroup');
+
+                    var eCounter = document.createElement("span");
+                    eCounter.setAttribute('class', 'counterE');
+                    var eCounterText = document.createTextNode(Ec);
+                    eCounter.appendChild(eCounterText);
+
+                    var eLine = document.createElement("div");
+                    eLine.setAttribute('class', 'line');
+
+                    var edigitsContainer = document.createElement("div");
+                    edigitsContainer.setAttribute('class', 'eDigitsContainer');
+
+                    var evenDigits = document.createElement("div");
+                    evenDigits.setAttribute('class', 'evenDigits');
+
+                    var eDigits = document.createElement("div");
+                    eDigits.setAttribute('class', 'eDigits');
+                    var edigitText = document.createTextNode(digito);
+                    eDigits.appendChild(edigitText);
+
+                    var ePosition = document.createElement("div");
+                    ePosition.setAttribute('class', 'ePosition');
+                    var ePostxt = document.createTextNode(AusCounter);
+                    ePosition.appendChild(ePostxt);
+
+                    var eDiference = document.createElement("div");
+                    eDiference.setAttribute('class', 'eDiference');
+                    if (diference < 0) {
+                        //eDiference.style.backgroundColor = NegDiferenceColor;
+                        eDiference.style.color = NegDiferenceColor;
+                    } else {
+                        //  eDiference.style.backgroundColor = PosDiferenceColor;
+                        eDiference.style.color = PosDiferenceColor;
+                    }
+                    var edifertxt = document.createTextNode(diference);
+                    eDiference.appendChild(edifertxt);
+
+                    evenDigits.appendChild(eDigits);
+                    evenDigits.appendChild(ePosition);
+                    evenDigits.appendChild(eDiference);
+
+                    edigitsContainer.appendChild(evenDigits);
+
+                    eGroup.appendChild(eCounter);
+                    eGroup.appendChild(eLine);
+                    eGroup.appendChild(edigitsContainer);
+
+                    var container = document.getElementById("container");
+                    container.appendChild(eGroup);
+
+
+
+                }
+
+                function AñadirDigitsE(digito, Ec, counter, AusCounter, diference) {
+
+                    var eCounterText = document.createTextNode(Ec);
+                    var edigitText = document.createTextNode(digito);
+
+                    var counterItem = document.getElementsByClassName("counterE");
+
+                    counterItem[counterItem.length - 1].innerHTML = Ec;
+
+                    var digitoItem = document.getElementsByClassName("eDigitsContainer");
+
+                    var evenDigits = document.createElement("div");
+                    evenDigits.setAttribute('class', 'evenDigits');
+
+                    var eDigits = document.createElement("div");
+                    eDigits.setAttribute('class', 'eDigits');
+                    var edigitText = document.createTextNode(digito);
+                    eDigits.appendChild(edigitText);
+
+                    var ePosition = document.createElement("div");
+                    ePosition.setAttribute('class', 'ePosition');
+                    var ePostxt = document.createTextNode(AusCounter);
+                    ePosition.appendChild(ePostxt);
+
+                    var eDiference = document.createElement("div");
+                    eDiference.setAttribute('class', 'eDiference');
+                    if (diference < 0) {
+                        //eDiference.style.backgroundColor = NegDiferenceColor;
+                        eDiference.style.color = NegDiferenceColor;
+                    } else {
+                        //  eDiference.style.backgroundColor = PosDiferenceColor;
+                        eDiference.style.color = PosDiferenceColor;
+                    }
+                    var edifertxt = document.createTextNode(diference);
+                    eDiference.appendChild(edifertxt);
+
+                    evenDigits.appendChild(eDigits);
+                    evenDigits.appendChild(ePosition);
+                    evenDigits.appendChild(eDiference);
+                    // var n;
+                    // for (n = 0; n < digitoItem.length; ++n) {
+                    //     digitoItem[n].appendChild(edigitText)
+                    // }
+                    digitoItem[digitoItem.length - 1].appendChild(evenDigits);
+
+                }
+
+                function AñadirGruposO(digito, Oc, counter, AusCounter, diference) {
+                    var oGroup = document.createElement("div");
+                    oGroup.setAttribute('class', 'ogroup');
+
+                    var oCounter = document.createElement("span");
+                    oCounter.setAttribute('class', 'counterO');
+                    var oCounterText = document.createTextNode(Oc);
+                    oCounter.appendChild(oCounterText);
+
+                    var oLine = document.createElement("div");
+                    oLine.setAttribute('class', 'lineO');
+
+                    var odigitsContainer = document.createElement("div");
+                    odigitsContainer.setAttribute('class', 'oDigitsContainer');
+
+                    var oddDigits = document.createElement("div");
+                    oddDigits.setAttribute('class', 'oddDigits');
+
+                    var oDigits = document.createElement("div");
+                    oDigits.setAttribute('class', 'oDigits');
+                    var odigitText = document.createTextNode(digito);
+                    oDigits.appendChild(odigitText);
+
+                    var oPosition = document.createElement("div");
+                    oPosition.setAttribute('class', 'oPosition');
+                    var oPostxt = document.createTextNode(AusCounter);
+                    oPosition.appendChild(oPostxt);
+
+                    var spacer = document.createElement("div");
+                    spacer.setAttribute('class', 'spacer');
+
+                    var oDiference = document.createElement("div");
+                    oDiference.setAttribute('class', 'oDiference');
+                    if (diference < 0) {
+                        //oDiference.style.backgroundColor = NegDiferenceColor;
+                        oDiference.style.color = NegDiferenceColor;
+                    } else {
+                        // oDiference.style.backgroundColor = PosDiferenceColor;
+                        oDiference.style.color = PosDiferenceColor;
+                    }
+                    var odifertxt = document.createTextNode(diference);
+                    oDiference.appendChild(odifertxt);
+
+                    oddDigits.appendChild(oDigits);
+                    oddDigits.appendChild(oPosition);
+                    oddDigits.appendChild(oDiference);
+
+                    odigitsContainer.appendChild(oddDigits);
+
+
+                    oGroup.appendChild(spacer);
+                    oGroup.appendChild(odigitsContainer);
+                    oGroup.appendChild(oLine);
+                    oGroup.appendChild(oCounter);
+
+                    var container = document.getElementById("container");
+                    container.appendChild(oGroup);
+
+                }
+
+                function AñadirDigitsO(digito, Oc, counter, AusCounter, diference) {
+
+                    var counterItem = document.getElementsByClassName("counterO");
+
+                    counterItem[counterItem.length - 1].innerHTML = Oc;
+
+                    var digitoItemO = document.getElementsByClassName("oDigitsContainer");
+
+                    var oddDigits = document.createElement("div");
+                    oddDigits.setAttribute('class', 'oddDigits');
+
+                    var oDigits = document.createElement("div");
+                    oDigits.setAttribute('class', 'oDigits');
+                    var odigitText = document.createTextNode(digito);
+                    oDigits.appendChild(odigitText);
+
+                    var oPosition = document.createElement("div");
+                    oPosition.setAttribute('class', 'oPosition');
+                    var oPostxt = document.createTextNode(AusCounter);
+                    oPosition.appendChild(oPostxt);
+
+                    var oDiference = document.createElement("div");
+                    oDiference.setAttribute('class', 'oDiference');
+                    if (diference < 0) {
+                        //oDiference.style.backgroundColor = NegDiferenceColor;
+                        oDiference.style.color = NegDiferenceColor;
+                    } else {
+                        // oDiference.style.backgroundColor = PosDiferenceColor;
+                        oDiference.style.color = PosDiferenceColor;
+                    }
+                    var odifertxt = document.createTextNode(diference);
+                    oDiference.appendChild(odifertxt);
+
+                    oddDigits.appendChild(oDigits);
+                    oddDigits.appendChild(oPosition);
+                    oddDigits.appendChild(oDiference);
+
+                    digitoItemO[digitoItemO.length - 1].appendChild(oddDigits);
+                }
+
+                function IndexChange() {
+                    var e = document.getElementById("Indices");
+                    var item = e.options[e.selectedIndex].value;
+                    symbol = item;
+                    // con esto obtenemos cada indice y renderizamos nuevamente el grafico
+                    // crear otra version que funcione para iterar historial de ticks, o tambien podemos incluirlo en este :)
+                    console.log(item);
+                }
+
+                if (isScrolledToBottom) {
+                    out.scrollLeft = out.scrollWidth - out.clientWidth;
+                    // console.log("scroll desplazado al final");
+                } else {
+                    //out.scrollLeft = out.scrollWidth - out.clientWidth;
+                    //  console.log("Se movio el scroll del borde");
+                }
+
+            }
+//             ws.onclose = function(e) {
+//     console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+//     setTimeout(function() {
+//       cambiar();
+//     }, 1000);
+//   };
+if (ws.readyState !== ws.CLOSED) {
+   // Do your stuff...
+   console.log("esta conectado");
+   if (decimals !=0) {
+   
+   setTimeout(function() {
+       ws.close();
+    }, 3000);
+   }else{
+
+   } 
+   
+    
+   
+}else{
+    console.log("esta cerrado");
+      cambiar();
+}
+
+
+
+        } 
+      
+        cambiar();
+       
+        
+    </script>
+
+</body>

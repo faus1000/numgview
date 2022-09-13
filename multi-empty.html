@@ -1,0 +1,161 @@
+<head>
+    <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <title>-Multi-empty</title>
+                <style>
+                    body {
+                        background-color: #54a4f0;
+                    }
+                </style>
+
+            </head>
+
+            <body>
+                <div class="controls">
+                    <select id="selector" onchange="changer()">
+                        <option value="R_10">V10</option>
+                        <option value="R_25">V25</option>
+                        <option value="R_50" selected="selected">V50</option>
+                        <option value="R_75">V75</option>
+                        <option value="R_100">V100</option>
+                        <option value="1HZ10V">V10(1s)</option>
+                        <option value="1HZ25V">V25(1s)</option>
+                        <option value="1HZ50V">V50(1s)</option>
+                        <option value="1HZ75V">V75(1s)</option>
+                        <option value="1HZ100V">V100(1s)</option>
+                        <option value="JD10">Jump 10</option>
+                        <option value="JD25">Jump 25</option>
+                        <option value="JD50">Jump 50</option>
+                        <option value="JD75">Jump 75</option>
+                        <option value="JD100">Jump 100</option>
+                        <option value="RDBEAR">Bear</option>
+                        <option value="RDBULL">Bull</option>
+                    </select>
+                </div>
+                <h1 id="out"></h1>
+                <script>
+
+
+                    var indice = [
+                        {
+                            "name": "R_10",
+                            "round": 3
+                        },
+                        {
+                            "name": "R_25",
+                            "round": 3
+                        },
+                        {
+                            "name": "R_50",
+                            "round": 4
+                        },
+                        {
+                            "name": "R_75",
+                            "round": 4
+                        }, {
+                            "name": "R_100",
+                            "round": 2
+                        }, {
+                            "name": "1HZ10V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ25V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ50V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ75V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ100V",
+                            "round": 2
+                        }, {
+                            "name": "RDBEAR",
+                            "round": 4
+                        }, {
+                            "name": "RDBULL",
+                            "round": 4
+                        }, {
+                            "name": "JD10",
+                            "round": 2
+                        }, {
+                            "name": "JD25",
+                            "round": 2
+                        }, {
+                            "name": "JD50",
+                            "round": 2
+                        }, {
+                            "name": "JD75",
+                            "round": 2
+                        }, {
+                            "name": "JD100",
+                            "round": 2
+                        }
+                    ];
+
+
+                    var decimals = 0;
+                    var symb = "";
+                    var symbol = "";
+                    var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+
+
+                    function changer() {
+
+
+                        var sel = document.getElementById("selector");
+                        symb = sel.options[sel.selectedIndex].value;
+                        symbol = sel.options[sel.selectedIndex].value;
+
+                        if (symb == indice[4].name || symb == indice[5].name || symb == indice[6].name || symb == indice[7].name || symb == indice[8].name || symb == indice[9].name || symb == indice[12].name || symb == indice[13].name || symb == indice[14].name || symb == indice[15].name || symb == indice[16].name) {
+                            decimals = 2;
+                        } else if (symb == indice[0].name || symb == indice[1].name) {
+                            decimals = 3;
+                        } else if (symb == indice[2].name || symb == indice[3].name || symb == indice[10].name || symb == indice[11].name) {
+                            decimals = 4;
+                        }
+
+
+                        if (ws.readyState !== ws.CLOSED) {
+                            console.log("connected");
+                            ws.close();
+
+                        } else {
+                            setTimeout(function () {
+                                connect();
+                            }, 1000);
+                        }
+                    }
+
+
+                    function connect() {
+                        changer();
+
+                        ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+                        ws.onopen = function (evt) {
+                            ws.send(JSON.stringify({ticks: symbol}));
+                        };
+
+                        ws.onmessage = function (msg) {
+                            var data = JSON.parse(msg.data);
+                            console.log("decimal is: " + decimals)
+                            console.log(" symbol is: " + symbol)
+                            console.log("tick is: " + data.tick.quote);
+                            console.log("___________________");
+
+                            document.getElementById("out").innerHTML = decimals + " - " + symbol + " - " + data.tick.quote;
+
+                            var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
+
+                        }
+                    }
+
+                    connect();
+                </script>
+
+
+            </body>
+        </html>

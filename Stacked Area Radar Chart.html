@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Stacked Area Radar Chart</title>
+  <link href="https://playground.anychart.com/gallery/src/Radar_Charts_(Spiderweb)/Stacked_Area_Radar_Chart/iframe" rel="canonical">
+  <meta content="Multi-Series Chart,Radar Chart,Spider Web,Stacked Chart,Table Data" name="keywords">
+  <meta content="AnyChart - JavaScript Charts designed to be embedded and integrated" name="description">
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" rel="stylesheet" type="text/css">
+  <style>html,
+body,
+#container {
+  width: 420px;
+  height:420px;
+  margin: 0;
+  padding: 0;
+}</style>
+ </head>
+ <body>
+  <div id="container"></div>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-radar.min.js"></script>
+  <script type="text/javascript">
+  anychart.onDocumentReady(function () {
+  // create data set on our data
+  var chartData = {
+    title: '% de Digitos',
+    header: ['#', 'Nevada'],
+    rows: [
+      ['0', 0],
+      ['1', 5],
+      ['2', 8],
+      ['3', 6],
+      ['4', 3],
+      ['5', 12],
+      ['6',10],
+      ['7', 18],
+      ['8', 23],
+      ['9', 7]
+    ]
+  }; 
+
+  // create radar chart
+  var chart = anychart.radar();
+
+  // set default series type
+  chart.defaultSeriesType('area');
+
+  // set chart data
+  chart.data(chartData);
+
+  // force chart to stack values by Y scale.
+  chart.yScale().stackMode('value');
+
+  // set yAxis settings
+  chart.yAxis().stroke('#545f69');
+  chart.yAxis().ticks().stroke('#545f69');
+
+  // set yAxis labels settings
+  chart
+    .yAxis()
+    .labels()
+    .fontColor('#545f69');
+
+  // set chart legend settings
+  chart.legend().align('center').position('center-bottom').enabled(true);
+
+  // set container id for the chart
+  chart.container('container');
+  // initiate chart drawing
+  chart.draw();
+});</script>
+ </body>
+</html>

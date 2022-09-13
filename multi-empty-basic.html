@@ -1,0 +1,411 @@
+<head>
+    <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <script src="main.js"></script>
+                <title>-Multi-empty-basic</title>
+                <style>
+                    body {
+                        background-color: #030f1a;
+                        /* 
+            background-color: #ffffff; */
+                    }
+
+                    .egroup {
+                        /* background-color: red; */
+                        width: auto;
+                        height: auto;
+
+                    }
+
+                    .ogroup {
+                        /* 
+              background-color: red;   */
+                        width: auto;
+                        height: auto;
+                        vertical-align: bottom;
+                    }
+
+                    .line {
+                        width: 100%;
+                        height: 5px;
+                        /* background-color: green; light */
+                        background-color: #07c37a;
+                        margin: 0 0 4px;
+                        border-radius: 2px 2px 2px 2px;
+                        /*dark*/
+                    }
+
+                    .lineO {
+                        width: 100%;
+                        height: 5px;
+                        /* background-color: red; light*/
+                        background-color: #ff8256;
+                        margin: 4px 0 0;
+                        border-radius: 2px 2px 2px 2px;
+                        /* dark*/
+                    }
+
+                    .counterE {
+                        font-size: 30px;
+                        justify-content: center;
+                        display: flex;
+                        /* color: rgb(4, 95, 4); light*/
+                        color: rgb(57, 211, 57);
+                        /* dark*/
+                        font-weight: bold;
+                    }
+
+                    .counterO {
+                        font-size: 30px;
+                        justify-content: center;
+                        display: flex;
+                        /* color: red; light*/
+                        color: #ff2626;
+                        /* dark*/
+                        font-weight: bold;
+                    }
+
+                    #container {
+                        display: flex;
+                        justify-items: center;
+
+                    }
+
+                    .eDigits {
+
+                        background-color: rgba(0, 128, 0, 0.42);
+                        color: #ffffff;
+                        font-size: 24;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;
+
+                    }
+
+                    .ePosition {
+                        font-size: 22;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        background-color: rgba(0, 131, 255, 0.22);
+                        color: rgba(255, 255, 255, 0.795);
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;
+                        transform: translate(1px, 0px);
+                    }
+
+                    .eDigitsContainer {
+                        display: flex;
+                        flex-direction: row;
+                    }
+
+                    .oDigitsContainer {
+                        display: flex;
+                        flex-direction: row;
+                    }
+
+                    /**/
+                    .oPosition {
+                        font-size: 22;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        background-color: rgba(255, 125, 18, 0.32);
+                        color: rgba(255, 255, 255, 0.918);
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;
+                        transform: translate(1px, 0px);
+                    }
+
+                    .oDigits {
+
+                        background-color: rgba(219, 41, 41, 0.42);
+                        color: #ffffff;
+                        font-size: 24;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;
+
+
+                    }
+
+                    .spacer {
+                        height: 44.5px;
+                        /* background-color: rebeccapurple; */
+                    }
+
+                    .oDiference {
+                        font-size: 18;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        /* background-color: rgba(255, 125, 18, 0.32);*/
+                        /* background-color: rgba(255, 255, 255, 0.137);*/
+                        background-color: rgba(189, 255, 240, 0.18);
+                        border: rgba(1, 199, 195, 0.74) solid 0.2px;
+                        /*  color: rgba(255, 255, 255, 0.918);*/
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;
+                        transform: translate(1px, -2px);
+                    }
+
+                    .eDiference {
+                        font-size: 18;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        /* background-color: rgba(0 ,131, 255 , 0.22);*/
+                        /* background-color: rgba(255, 255, 255, 0.137);*/
+                        background-color: rgba(189, 255, 240, 0.18);
+                        border: rgba(1, 199, 195, 0.74) solid 0.2px;
+                        /*   color: rgba(255, 255, 255, 0.795);*/
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;
+                        transform: translate(1px, 0px);
+                    }
+
+                    /* .controls{
+background-color: turquoise;
+width: 100%;
+height: 48px;
+position: fixed;
+        } */
+                    #selector {
+                        position: fixed;
+                    }
+                </style>
+
+            </head>
+
+            <body>
+                <!-- <div id="container">
+                                                                        <div class="egroup">
+                                                                            <span class="counterE">3</span>
+                                                                            <div class="line"></div>
+                                                                            <div class="eDigits">468</div> 
+                                                                        </div>
+                                                                        <div class="ogroup">
+                                                                            <div class="spacer"></div>
+                                                                            <div class="oDigits">931</div>
+                                                                            <div class="lineO"></div>
+                                                                            <span class="counterO">3</span>
+                                                                        </div>
+                                                                
+                                                                
+                                                                    </div> -->
+                <div class="controls">
+                    <select id="selector" onchange="cambiar()">
+                        <option value="R_10">V10</option>
+                        <option value="R_25">V25</option>
+                        <option value="R_50" selected="selected">V50</option>
+                        <option value="R_75">V75</option>
+                        <option value="R_100">V100</option>
+                        <option value="1HZ10V">V10(1s)</option>
+                        <option value="1HZ25V">V25(1s)</option>
+                        <option value="1HZ50V">V50(1s)</option>
+                        <option value="1HZ75V">V75(1s)</option>
+                        <option value="1HZ100V">V100(1s)</option>
+                        <option value="JD10">Jump 10</option>
+                        <option value="JD25">Jump 25</option>
+                        <option value="JD50">Jump 50</option>
+                        <option value="JD75">Jump 75</option>
+                        <option value="JD100">Jump 100</option>
+                        <option value="RDBEAR">Bear</option>
+                        <option value="RDBULL">Bull</option>
+                    </select>
+                </div>
+                <div id="container"><!-- id="evenDigitsContainer"-->
+                    <!--  id="oddDigitsContainer"-->
+                    <!--  <div class="egroup">
+                                                                                            <span class="counterE">4</span>
+                                                                                            <div class="line"></div>
+                                                                                            <div class="eDigitsContainer">
+                                                                                                <div class="evenDigits">
+                                                                                                    <div class="eDigits"></div>
+                                                                                                    <div class="ePosition"></div>
+                                                                                                    <div class="eDiference"></div>
+                                                                                                </div>
+                                                                                
+                                                                                
+                                                                                            </div>
+                                                                                
+                                                                                        </div>
+                                                                                        <div class="ogroup">
+                                                                                            <div class="spacer"></div>
+                                                                                            <div class="oDigitsContainer">
+                                                                                                <div class="oddDigits">
+                                                                                                    <div class="oDigits"></div>
+                                                                                                    <div class="oPosition"></div>
+                                                                                                    <div class="oDiference"></div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="lineO"></div>
+                                                                                            <span class="counterO">1</span>
+                                                                                        </div>
+                                                                                
+                                                                                -->
+                </div>
+                <div id="salida"></div>
+
+
+                <script>
+
+
+                    var indice = [
+                        {
+                            "name": "R_10",
+                            "round": 3
+                        },
+                        {
+                            "name": "R_25",
+                            "round": 3
+                        },
+                        {
+                            "name": "R_50",
+                            "round": 4
+                        },
+                        {
+                            "name": "R_75",
+                            "round": 4
+                        }, {
+                            "name": "R_100",
+                            "round": 2
+                        }, {
+                            "name": "1HZ10V",
+                            "round": 3
+                        }, {
+                            "name": "1HZ25V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ50V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ75V",
+                            "round": 2
+                        }, {
+                            "name": "1HZ100V",
+                            "round": 2
+                        }, {
+                            "name": "RDBEAR",
+                            "round": 4
+                        }, {
+                            "name": "RDBULL",
+                            "round": 4
+                        }, {
+                            "name": "JD10",
+                            "round": 2
+                        }, {
+                            "name": "JD25",
+                            "round": 2
+                        }, {
+                            "name": "JD50",
+                            "round": 2
+                        }, {
+                            "name": "JD75",
+                            "round": 2
+                        }, {
+                            "name": "JD100",
+                            "round": 2
+                        }
+                    ];
+
+
+                    var decimals = 0;
+                    var symb = "";
+                    var symbol = "";
+                    var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+                    function cambiar() {
+
+
+                        var sel = document.getElementById("selector");
+                        var valor = sel.options[sel.selectedIndex].value;
+                        symb = sel.options[sel.selectedIndex].value;
+
+                        document.getElementById("container").innerHTML = "";
+
+                        if (symb == indice[4].name || symb == indice[6].name || symb == indice[7].name || symb == indice[8].name || symb == indice[9].name || symb == indice[12].name || symb == indice[13].name || symb == indice[14].name || symb == indice[15].name || symb == indice[16].name) {
+                            decimals = 2;
+                        } else if (symb == indice[0].name || symb == indice[5].name) {
+                            decimals = 3;
+                        } else if (symb == indice[2].name || symb == indice[3].name || symb == indice[10].name || symb == indice[11].name) {
+                            decimals = 4;
+                        }
+                        symbol = symb;
+
+                        if (ws.readyState !== ws.CLOSED) { // Do your stuff...
+                            console.log("esta conectado");
+                            ws.close();
+                        } else { // conectar();
+                            setTimeout(function () {
+                                conectar();
+                            },1000);
+                        }
+                    }
+
+
+                    function conectar() {
+                        cambiar();
+                      ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+                        ws.onopen = function (evt) {
+                            ws.send(JSON.stringify({ticks: symbol}));
+                        };
+
+                        ws.onmessage = function (msg) {
+                            var data = JSON.parse(msg.data);
+                            console.log("el decimal es: " + decimals)
+                            console.log("el symbolo es: " + symbol)
+                            console.log("el tick es: " + data.tick.quote);
+
+                            document.getElementById("salida").innerHTML = decimals + " - " + symbol + " - " + data.tick.quote;
+
+                            var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
+                            // console.log("Se movio el scroll del borde");
+                        }
+                    }
+
+                    //             ws.onclose = function(e) {
+                    //     console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+                    //     setTimeout(function() {
+                    //       cambiar();
+                    //     }, 1000);
+                    // };
+                    // if (ws.readyState !== ws.CLOSED) {
+                    //    // Do your stuff...
+                    //    console.log("esta conectado");
+                    //    if (decimals !=0) {
+
+                    //    setTimeout(function() {
+                    //        ws.close();
+                    //     }, 3000);
+                    //    }else{
+
+                    //    }
+
+
+                    // }else{
+                    //     console.log("esta cerrado");
+                    //       cambiar();
+                    // }
+                    conectar();
+                </script>
+
+
+            </body>
+        </head>

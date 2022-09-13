@@ -3,10 +3,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="main.js"></script>
-    <title>NumG View</title>
+    
+    <title>Patterns Compare</title>
     <style>
         body {
-           background-color: #030f1a; /* 
+            background-color: #030f1a;
+            /* 
             background-color: #ffffff; */
         }
 
@@ -72,8 +74,8 @@
         }
 
         .eDigits {
-           
-            background-color: rgba(0 ,128, 0, 0.42); 
+
+            background-color: rgba(0, 128, 0, 0.42);
             color: #ffffff;
             font-size: 24;
             width: 32px;
@@ -91,7 +93,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background-color: rgba(0 ,131, 255 , 0.22);
+            background-color: rgba(0, 131, 255, 0.22);
             color: rgba(255, 255, 255, 0.795);
             display: flex;
             justify-content: center;
@@ -126,8 +128,8 @@
         }
 
         .oDigits {
-            
-            background-color:rgba(219, 41, 41, 0.42); 
+
+            background-color: rgba(219, 41, 41, 0.42);
             color: #ffffff;
             font-size: 24;
             width: 32px;
@@ -145,32 +147,34 @@
             height: 44.5px;
             /* background-color: rebeccapurple; */
         }
+
         .oDiference {
             font-size: 18;
             width: 32px;
             height: 32px;
             border-radius: 50%;
-           /* background-color: rgba(255, 125, 18, 0.32);*/
-          /* background-color: rgba(255, 255, 255, 0.137);*/
-           background-color: rgba(189, 255, 240, 0.18);
-           border:rgba(1, 199, 195,0.74) solid 0.2px;
-           /*  color: rgba(255, 255, 255, 0.918);*/
+            /* background-color: rgba(255, 125, 18, 0.32);*/
+            /* background-color: rgba(255, 255, 255, 0.137);*/
+            background-color: rgba(189, 255, 240, 0.18);
+            border: rgba(1, 199, 195, 0.74) solid 0.2px;
+            /*  color: rgba(255, 255, 255, 0.918);*/
             display: flex;
             justify-content: center;
             justify-items: center;
             align-items: center;
             transform: translate(1px, -2px);
         }
+
         .eDiference {
             font-size: 18;
             width: 32px;
             height: 32px;
             border-radius: 50%;
-           /* background-color: rgba(0 ,131, 255 , 0.22);*/
-          /* background-color: rgba(255, 255, 255, 0.137);*/
-          background-color: rgba(189, 255, 240, 0.18);
-           border: rgba(1, 199, 195,0.74) solid 0.2px;
-          /*   color: rgba(255, 255, 255, 0.795);*/
+            /* background-color: rgba(0 ,131, 255 , 0.22);*/
+            /* background-color: rgba(255, 255, 255, 0.137);*/
+            background-color: rgba(189, 255, 240, 0.18);
+            border: rgba(1, 199, 195, 0.74) solid 0.2px;
+            /*   color: rgba(255, 255, 255, 0.795);*/
             display: flex;
             justify-content: center;
             justify-items: center;
@@ -200,7 +204,7 @@
     <div id="container">
         <!-- id="evenDigitsContainer"-->
         <!--  id="oddDigitsContainer"-->
-      <!--  <div class="egroup">
+        <!--  <div class="egroup">
             <span class="counterE">4</span>
             <div class="line"></div>
             <div class="eDigitsContainer">
@@ -229,26 +233,42 @@
 
 -->
     </div>
+    <div id="chartContainer" style="height: 300px; width: 300px;"></div>
+    <script>
+        
 
-  
+// function explodePie (e) {
+// 	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+// 		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+// 	} else {
+// 		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+// 	}
+// 	e.chart.render();
+// }
+
+
+    </script>
 
     <script>
-       
+
+var percentsValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+
         var out = document.body;
         //==============================================================
-        
-       // var arr1 = [];
-      //  var arr2 = [];
-     //   arr2[0] = 0;
-       // var listC = [];
-       var porcentList = [];
-       periods = 25;
+
+        // var arr1 = [];
+        //  var arr2 = [];
+        //   arr2[0] = 0;
+        // var listC = [];
+        var porcentList = [];
+        periods = 25;
 
         var eCounter = 0;
         var oCounter = 0;
 
 
-       
+
         var symbol = "R_50";
         var decimals = 4;
         var contador = 0;
@@ -274,13 +294,13 @@
 
         var addOGroup = false;
         var addEGroup = false;
-        var AusData = [0,0,0,0,0,0,0,0,0,0];
+        var AusData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         var one = 0;
-        var ResData = [0,0];
-      //  var DiferencePatterns = [];
-     var NegDiferenceColor = "rgba(255,0, 0, 0.84)";
-      var PosDiferenceColor ="rgba(89,255, 232, 0.75)";
+        var ResData = [0, 0];
+        //  var DiferencePatterns = [];
+        var NegDiferenceColor = "rgba(255,0, 0, 0.84)";
+        var PosDiferenceColor = "rgba(89,255, 232, 0.75)";
 
         ws.onmessage = function (msg) {
             contador++
@@ -289,136 +309,152 @@
             var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
             var isScrolledToBottom = out.scrollWidth - out.clientWidth <= out.scrollLeft + 1;
             // console.log(digit);
-            
+
             //listado de patrones por diferencia
             ResData[1] = digit;
-            ResData[0]= one;
+            ResData[0] = one;
             one = digit;
-            var diferencias = ResData[1]-ResData[0];
+            var diferencias = ResData[1] - ResData[0];
             //DiferencePatterns.push(diferencias); 
             //console.log(DiferencePatterns);
-        var percents = [0,0,0,0,0,0,0,0,0,0];
-    var percentsValues = [0,0,0,0,0,0,0,0,0,0];    
-if (porcentList.length>periods) {
-    porcentList.push(digit);
-    var perioDigits = porcentList.slice(porcentList.length-periods, porcentList.length);
-  
-    //calcular los porcentajes
-    perioDigits.forEach(element => {
-        if (element == "0") {
-            percents[0] += 1;
-        }else if (element == "1") {
-            percents[1] += 1;
-        }
-        else if (element == "2") {
-            percents[2] += 1;
-        }
-        else if (element == "3") {
-            percents[3] += 1;
-        }
-        else if (element == "4") {
-            percents[4] += 1;
-        }
-        else if (element == "5") {
-            percents[5] += 1;
-        }
-        else if (element == "6") {
-            percents[6] += 1;
-        }
-        else if (element == "7") {
-            percents[7] += 1;
-        }else if (element == "8") {
-            percents[8] += 1;
-        }else if (element == "9") {
-            percents[9] += 1;
-        }
-    });
+            var percents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+           
+            if (porcentList.length > periods) {
+                porcentList.push(digit);
+                var perioDigits = porcentList.slice(porcentList.length - periods, porcentList.length);
+
+                //calcular los porcentajes
+                perioDigits.forEach(element => {
+                    if (element == "0") {
+                        percents[0] += 1;
+                    } else if (element == "1") {
+                        percents[1] += 1;
+                    }
+                    else if (element == "2") {
+                        percents[2] += 1;
+                    }
+                    else if (element == "3") {
+                        percents[3] += 1;
+                    }
+                    else if (element == "4") {
+                        percents[4] += 1;
+                    }
+                    else if (element == "5") {
+                        percents[5] += 1;
+                    }
+                    else if (element == "6") {
+                        percents[6] += 1;
+                    }
+                    else if (element == "7") {
+                        percents[7] += 1;
+                    } else if (element == "8") {
+                        percents[8] += 1;
+                    } else if (element == "9") {
+                        percents[9] += 1;
+                    }
+                });
 
 
-for (let index = 0; index < percents.length; index++) {
-    var element = (percents[index]*100)/periods;
-    //percentsValues[index] = index+"-"+element+"%";
-    percentsValues[index] = element+"%";
+                for (let index = 0; index < percents.length; index++) {
+                    var element = (percents[index] * 100) / periods;
+                    //percentsValues[index] = index+"-"+element+"%";
+                    percentsValues[index] = element + "%";
 
-    //mostrar los 5 digitos con mayor porcentaje
-    
-}
+                    //mostrar los 5 digitos con mayor porcentaje
 
-//console.log("25 digits:" + perioDigits);
-//console.log( "units percents" +percents);
-console.log("% percents: "+ percentsValues);
-//  for (let index = 0; index < percentsValues.length; index++) {
-//     var element = percentsValues[index];
-    
-//  }
+                }
 
-percents = [0,0,0,0,0,0,0,0,0,0]; 
-percentsValue = [0,0,0,0,0,0,0,0,0,0]; 
+                //console.log("25 digits:" + perioDigits);
+                //console.log( "units percents" +percents);
+                console.log("% percents: " + percentsValues);
+                //  for (let index = 0; index < percentsValues.length; index++) {
+                //     var element = percentsValues[index];
 
-}else{
-    //seguir añadiendo
-    console.log("cargando digitos");
-    porcentList.push(digit);
+                //  }
+              
 
-}
+                percents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                percentsValue = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            } else {
+                //seguir añadiendo
+                console.log("cargando digitos");
+                porcentList.push(digit);
+
+            }
+
+            /////////  patterns comparator
+            var pattern2d = porcentList.slice(porcentList.length -2,porcentList.length);
+            var patron2d = pattern2d.join("");
+            // esto es para trade even
+            var patrones = ["02","04","06","08"];
+            // esto es para trade odd
+            var patronodd =  ["03","05","07","09"];
+            patrones.forEach(element => {
+                if (element == patron2d) {
+                    console.log("patron encontrado: "+element);
+                }
+            });
+        
+console.log("las 2 digits: "+patron2d);
 
             /////////////////////////////////////////////////
             if (digit == 8) {
-                AusData[8]= co8;
+                AusData[8] = co8;
                 co8 = 0;
             } else {
                 co8++
             }
             if (digit == 6) {
-              AusData[6]= co6;
+                AusData[6] = co6;
                 co6 = 0;
             } else {
                 co6++;
             }
             if (digit == 4) {
-                AusData[4]= co4;
+                AusData[4] = co4;
                 co4 = 0;
             } else {
                 co4++;
             }
             if (digit == 2) {
-                AusData[2]= co2;
+                AusData[2] = co2;
                 co2 = 0;
             } else {
                 co2++;
             }
             if (digit == 0) {
-               AusData[0]= co0;
+                AusData[0] = co0;
                 co0 = 0;
             } else {
                 co0++;
             }
             if (digit == 1) {
-               AusData[1]= co1;
+                AusData[1] = co1;
                 co1 = 0;
             } else {
                 co1++;
             }
             if (digit == 3) {
-               AusData[3]= co3;
+                AusData[3] = co3;
                 co3 = 0;
             } else {
                 co3++;
             }
             if (digit == 5) {
-                AusData[5]= co5;
+                AusData[5] = co5;
                 co5 = 0;
             } else {
                 co5++;
             }
             if (digit == 7) {
-                AusData[7]= co7;
+                AusData[7] = co7;
                 co7 = 0;
             } else {
                 co7++;
             }
             if (digit == 9) {
-                AusData[9]= co9;
+                AusData[9] = co9;
                 co9 = 0;
 
             } else {
@@ -428,8 +464,8 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
             if (digit % 2 === 0) {
                 var text = "O";
                 if (oCounter > 0) {
-                   // arr1.push(oCounter + text);
-                    AñadirGruposE(digit, 1,contador,AusData[digit],diferencias);
+                    // arr1.push(oCounter + text);
+                    AñadirGruposE(digit, 1, contador, AusData[digit], diferencias);
                     addEGroup = true
 
                 }
@@ -439,8 +475,8 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
             } else {
                 var text = "E";
                 if (eCounter > 0) {
-                 //   arr1.push(eCounter + text);
-                    AñadirGruposO(digit, 1,contador,AusData[digit],diferencias);
+                    //   arr1.push(eCounter + text);
+                    AñadirGruposO(digit, 1, contador, AusData[digit], diferencias);
                     addOGroup = true;
 
                 }
@@ -448,70 +484,46 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
                 oCounter += 1;
             }
             if (eCounter > 0) {
-               // var text = "E";
+                // var text = "E";
                 //arr2[0] = eCounter + text;
                 if (addEGroup) {
                     addEGroup = false;
                 } else {
-                    AñadirDigitsE(digit, eCounter,contador,AusData[digit],diferencias);
+                    AñadirDigitsE(digit, eCounter, contador, AusData[digit], diferencias);
 
                 }
 
-               // console.log("Ecounter mayor a cero");
+                // console.log("Ecounter mayor a cero");
             }
             if (oCounter > 0) {
-               // var text = "O";
+                // var text = "O";
                 //arr2[0] = oCounter + text;
                 if (addOGroup) {
                     addOGroup = false;
                 } else {
-                    AñadirDigitsO(digit, oCounter,contador,AusData[digit],diferencias);
+                    AñadirDigitsO(digit, oCounter, contador, AusData[digit], diferencias);
 
                 }
 
-               // console.log("Ocounter mayor a cero");
+                // console.log("Ocounter mayor a cero");
             }
             //mostrar en lista este array
-           // listC = arr1 + "," + arr2;
-         //   console.log("Groups: " + listC);
-         //   var digitListView = document.getElementById("digitGroups");
-         
+            // listC = arr1 + "," + arr2;
+            //   console.log("Groups: " + listC);
+            //   var digitListView = document.getElementById("digitGroups");
+
 
             // your script goes here
             // colors text 🟢🔵🔴
-            function AñadirGruposE(digito, Ec,counter,AusCounter,diference) {
-                /*
-                                var eGroup = document.createElement("div");
-                                var eCounter = document.createElement("span");
-                                var eLine = document.createElement("div");
-                                var eDigits = document.createElement("div");
-                
-                                eGroup.setAttribute('class', 'egroup');
-                                eCounter.setAttribute('class', 'counterE');
-                                eLine.setAttribute('class', 'line');
-                                eDigits.setAttribute('class', 'eDigits');
-                
-                                var eCounterText = document.createTextNode(Ec);
-                
-                                var edigitText = document.createTextNode(digito);
-                
-                                eCounter.appendChild(eCounterText);
-                                eDigits.appendChild(edigitText);
-                
-                                eGroup.appendChild(eCounter);
-                                eGroup.appendChild(eLine);
-                                eGroup.appendChild(eDigits);
-                
-                                var container = document.getElementById("container");
-                                container.appendChild(eGroup);
-                */
+            function AñadirGruposE(digito, Ec, counter, AusCounter, diference) {
+              
                 var eGroup = document.createElement("div");
                 eGroup.setAttribute('class', 'egroup');
 
                 var eCounter = document.createElement("span");
                 eCounter.setAttribute('class', 'counterE');
                 var eCounterText = document.createTextNode(Ec);
-                 eCounter.appendChild(eCounterText);
+                eCounter.appendChild(eCounterText);
 
                 var eLine = document.createElement("div");
                 eLine.setAttribute('class', 'line');
@@ -534,11 +546,11 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
                 var eDiference = document.createElement("div");
                 eDiference.setAttribute('class', 'eDiference');
-                if (diference <0) {
+                if (diference < 0) {
                     //eDiference.style.backgroundColor = NegDiferenceColor;
                     eDiference.style.color = NegDiferenceColor;
-                }else{
-                  //  eDiference.style.backgroundColor = PosDiferenceColor;
+                } else {
+                    //  eDiference.style.backgroundColor = PosDiferenceColor;
                     eDiference.style.color = PosDiferenceColor;
                 }
                 var edifertxt = document.createTextNode(diference);
@@ -561,9 +573,9 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
             }
 
-            function AñadirDigitsE(digito, Ec,counter,AusCounter,diference) {
- 
-                var eCounterText = document.createTextNode(Ec); 
+            function AñadirDigitsE(digito, Ec, counter, AusCounter, diference) {
+
+                var eCounterText = document.createTextNode(Ec);
                 var edigitText = document.createTextNode(digito);
 
                 var counterItem = document.getElementsByClassName("counterE");
@@ -587,11 +599,11 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
                 var eDiference = document.createElement("div");
                 eDiference.setAttribute('class', 'eDiference');
-                if (diference <0) {
+                if (diference < 0) {
                     //eDiference.style.backgroundColor = NegDiferenceColor;
                     eDiference.style.color = NegDiferenceColor;
-                }else{
-                  //  eDiference.style.backgroundColor = PosDiferenceColor;
+                } else {
+                    //  eDiference.style.backgroundColor = PosDiferenceColor;
                     eDiference.style.color = PosDiferenceColor;
                 }
                 var edifertxt = document.createTextNode(diference);
@@ -608,7 +620,7 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
             }
 
-            function AñadirGruposO(digito, Oc,counter,AusCounter,diference) {
+            function AñadirGruposO(digito, Oc, counter, AusCounter, diference) {
                 var oGroup = document.createElement("div");
                 oGroup.setAttribute('class', 'ogroup');
 
@@ -641,22 +653,22 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
                 var oDiference = document.createElement("div");
                 oDiference.setAttribute('class', 'oDiference');
-                if (diference <0) {
+                if (diference < 0) {
                     //oDiference.style.backgroundColor = NegDiferenceColor;
                     oDiference.style.color = NegDiferenceColor;
-                }else{
-                   // oDiference.style.backgroundColor = PosDiferenceColor;
-                    oDiference.style.color= PosDiferenceColor;
+                } else {
+                    // oDiference.style.backgroundColor = PosDiferenceColor;
+                    oDiference.style.color = PosDiferenceColor;
                 }
                 var odifertxt = document.createTextNode(diference);
                 oDiference.appendChild(odifertxt);
 
-               oddDigits.appendChild(oDigits);
-               oddDigits.appendChild(oPosition);
-               oddDigits.appendChild(oDiference);
+                oddDigits.appendChild(oDigits);
+                oddDigits.appendChild(oPosition);
+                oddDigits.appendChild(oDiference);
 
-               odigitsContainer.appendChild(oddDigits); 
-                
+                odigitsContainer.appendChild(oddDigits);
+
 
                 oGroup.appendChild(spacer);
                 oGroup.appendChild(odigitsContainer);
@@ -668,8 +680,8 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
             }
 
-            function AñadirDigitsO(digito, Oc,counter,AusCounter,diference) {
-                
+            function AñadirDigitsO(digito, Oc, counter, AusCounter, diference) {
+
                 var counterItem = document.getElementsByClassName("counterO");
 
                 counterItem[counterItem.length - 1].innerHTML = Oc;
@@ -691,12 +703,12 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
 
                 var oDiference = document.createElement("div");
                 oDiference.setAttribute('class', 'oDiference');
-                if (diference <0) {
+                if (diference < 0) {
                     //oDiference.style.backgroundColor = NegDiferenceColor;
                     oDiference.style.color = NegDiferenceColor;
-                }else{
-                   // oDiference.style.backgroundColor = PosDiferenceColor;
-                    oDiference.style.color= PosDiferenceColor;
+                } else {
+                    // oDiference.style.backgroundColor = PosDiferenceColor;
+                    oDiference.style.color = PosDiferenceColor;
                 }
                 var odifertxt = document.createTextNode(diference);
                 oDiference.appendChild(odifertxt);
@@ -704,7 +716,7 @@ percentsValue = [0,0,0,0,0,0,0,0,0,0];
                 oddDigits.appendChild(oDigits);
                 oddDigits.appendChild(oPosition);
                 oddDigits.appendChild(oDiference);
-                
+
                 digitoItemO[digitoItemO.length - 1].appendChild(oddDigits);
             }
 
